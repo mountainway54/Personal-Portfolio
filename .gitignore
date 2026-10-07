@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Nuxt generated files
+.nuxt/
+.output/
+.data/
+dist/
+
+# Local configuration
+.env
+.env.*
+!.env.example
+
+# Logs and editor files
+*.log
+.DS_Store
+.idea/
