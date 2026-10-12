@@ -14,3 +14,13 @@ test('missing and malformed configuration cannot produce a URL', () => {
   assert.equal(cloudinaryUrl('demo', { ...quyiGallery[0]!, cloudinaryPublicId: '../asset' }, 768), undefined)
   assert.equal(cloudinaryUrl('demo', { ...quyiGallery[0]!, cloudinaryPublicId: 'asset', version: 'invalid' }, 768), undefined)
 })
+
+test('animated GIFs use their original files without responsive transformations', () => {
+  const animations = [{ ...quyiGallery[0]!, format: 'gif' as const, cloudinaryPublicId: 'animation', version: '123', sourcePath: 'https://res.cloudinary.com/akx9y9c8/image/upload/v123/animation.gif' }]
+  for (const media of animations) {
+    assert.equal(cloudinaryUrl('akx9y9c8', media, 1440), media.sourcePath)
+    assert.equal(cloudinaryUrl('akx9y9c8', media, 768, true), media.sourcePath)
+    assert.equal(cloudinarySrcset('akx9y9c8', media), undefined)
+    assert.equal(cloudinaryUrl('', media, 1440), undefined)
+  }
+})
