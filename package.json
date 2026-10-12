@@ -8,14 +8,20 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "typecheck": "nuxt typecheck",
+    "test": "node --test tests/*.test.ts",
+    "check:content": "node --env-file-if-exists=.env scripts/check-content.ts",
+    "check:release": "node --env-file-if-exists=.env scripts/check-content.ts --release",
+    "openspec": "openspec",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "nuxt": "4.5.0",
+    "gsap": "3.15.0",
+    "nuxt": "4.5.1",
     "vue": "^3.5.0",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@fission-ai/openspec": "1.14.1",
     "typescript": "^5.9.0",
     "vue-tsc": "^3.0.0"
   }
