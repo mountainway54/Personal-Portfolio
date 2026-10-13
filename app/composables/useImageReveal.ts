@@ -1,6 +1,6 @@
 import type { Ref, ComputedRef } from 'vue'
 import { gsap } from 'gsap'
-export function useImageReveal(element: Ref<HTMLElement | undefined>, enabled: ComputedRef<boolean>, direction: 'right' | 'up' = 'right') {
+export function useImageReveal(element: Ref<HTMLElement | undefined>, enabled: ComputedRef<boolean>, direction: 'right' | 'up' = 'right', duration = 0.7) {
   let media: gsap.MatchMedia | undefined
   let disposed = false
   onMounted(async () => {
@@ -21,7 +21,7 @@ export function useImageReveal(element: Ref<HTMLElement | undefined>, enabled: C
         viewport.disconnect()
         loadingObserver.disconnect()
         tween = gsap.to(target, {
-          opacity: 1, x: 0, y: 0, duration: 0.7, ease: 'power3.out',
+          opacity: 1, x: 0, y: 0, duration, ease: 'power3.out',
           onComplete: () => {
             target.dataset.revealed = 'true'
             gsap.set(target, { clearProps: 'opacity,transform' })

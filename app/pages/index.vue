@@ -9,7 +9,7 @@ useSeoMeta({ title: 'WILLLIN — Design portfolio', description: 'Brand, visual 
     <h1 class="sr-only">WILLLIN — Design portfolio</h1>
     <ProjectHero :slides="homeSlides" />
     <section class="works-section content" aria-labelledby="work-heading">
-      <div class="section-bar"><h2 id="work-heading" class="section-heading">WORK</h2><NuxtLink to="/work" class="text-link utility explore-work" aria-label="Explore work">Explore <img :src="outwardIcon" class="explore-work-icon" width="24" height="24" alt="" aria-hidden="true" /></NuxtLink></div>
+      <div class="section-bar"><h2 id="work-heading" data-work-heading tabindex="-1" class="section-heading">WORK</h2><NuxtLink to="/work" class="text-link utility explore-work" aria-label="Explore work">Explore <img :src="outwardIcon" class="explore-work-icon" width="24" height="24" alt="" aria-hidden="true" /></NuxtLink></div>
       <div class="work-grid"><ProjectCard v-for="project in projects" :key="project.slug" :project="project" /></div>
     </section>
   </div>

@@ -351,6 +351,7 @@ p {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  pointer-events: none;
 }
 .hero-pagination button {
   display: grid;
@@ -358,6 +359,7 @@ p {
   width: 44px;
   height: 44px;
   padding: 0;
+  pointer-events: auto;
 }
 .hero-pagination button span {
   width: 10px;
@@ -381,7 +383,7 @@ p {
 }
 .hero-visual {
   display: block;
-  aspect-ratio: 24 / 9;
+  aspect-ratio: 21 / 9;
   overflow: hidden;
 }
 .hero .media-frame {
@@ -912,6 +914,16 @@ p {
   pointer-events: none;
 }
 .hero-navigation button {
+  position: absolute;
+  top: 0;
+  width: calc(100% / 3);
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  pointer-events: auto;
+}
+.hero-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -923,7 +935,6 @@ p {
   background: rgba(0, 0, 0, 0.15);
   color: #fff;
   font-size: 24px;
-  pointer-events: auto;
 }
 .hero-navigation button img {
   width: 24px;
@@ -934,9 +945,15 @@ p {
   transform: translateX(6.1125px);
 }
 .hero-previous {
-  left: var(--gutter);
+  left: 0;
 }
 .hero-next {
+  right: 0;
+}
+.hero-previous .hero-arrow {
+  left: var(--gutter);
+}
+.hero-next .hero-arrow {
   right: var(--gutter);
 }
 

@@ -5,6 +5,7 @@ import type {
   Project,
 } from "../types/portfolio.ts";
 import { cloudinaryAssets } from "./media.ts";
+import { ointmentShowcase, ointmentPackaging, getProduceCarton } from './packaging.ts';
 
 const alt: Bilingual[] = [
   {
@@ -130,6 +131,24 @@ const gangxinGallery: Media[] = [{
   height: 778,
   alt: { en: 'Gangxin day care centre brand identity', zhTw: 'Gangxin 日間照顧中心品牌識別' },
 }];
+const realEstateGallery: Media[] = [
+  [9, '1791860960', 2200, 1237],
+  [6, '1791860961', 3656, 2057],
+  [7, '1791860960', 2200, 1238],
+  [10, '1791860961', 2200, 1237],
+  [8, '1791860960', 2200, 1238],
+].map(([number, version, width, height]) => {
+  const publicId = `圖片${number}`;
+  return {
+    id: `real-estate-${number}`,
+    sourcePath: `https://res.cloudinary.com/akx9y9c8/image/upload/v${version}/${encodeURIComponent(publicId)}.webp`,
+    cloudinaryPublicId: publicId,
+    version: String(version),
+    width: Number(width),
+    height: Number(height),
+    alt: { en: `Real estate key visual design proposal ${number}`, zhTw: `房地產主視覺設計提案 ${number}` },
+  };
+});
 const entries: [string, Category, string, string][] = [
   [
     "quyi-brand-identity",
@@ -146,7 +165,9 @@ const entries: [string, Category, string, string][] = [
   ],
   ["real-estate-key-visual", "VI", "Real estate key visual", "房地產主視覺"],
   ["ointment-packaging", "PACKAGE", "Ointment packaging", "藥膏包裝設計"],
-  ["produce-carton", "PACKAGE", "Produce carton design", "蔬果紙箱設計"],
+  ['cucumber-carton', 'PACKAGE', 'Cucumber carton design', '胡瓜紙箱設計'],
+  ['green-pepper-carton', 'PACKAGE', 'Green pepper carton design', '青椒紙箱設計'],
+  ['sweet-pepper-carton', 'PACKAGE', 'Sweet pepper carton design', '甜椒紙箱設計'],
   [
     "interactive-installation",
     "CONCEPT",
@@ -181,16 +202,18 @@ export const projects: Project[] = entries.map(
     category,
     order,
     title: { en, zhTw },
-    status: slug === 'erectus-faucet' ? 'ready' : 'pending',
-    description: slug === 'erectus-faucet' ? erectusDescription : undefined,
-    cover: slug === 'gangxin-brand-identity' ? gangxinGallery[0] : slug === 'erectus-faucet' ? erectusGallery[0] : slug === 'dadi-website' ? dadiGallery[0] : order === 0 ? quyiGallery[0] : undefined,
+    status: slug === 'erectus-faucet' || slug === 'real-estate-key-visual' ? 'ready' : 'pending',
+    packaging: slug === 'ointment-packaging' ? ointmentPackaging : getProduceCarton(slug)?.packaging,
+    description: slug === 'real-estate-key-visual' ? { en: 'This project is a design proposal.', zhTw: '此案為提案。' } : slug === 'erectus-faucet' ? erectusDescription : undefined,
+    cover: slug === 'ointment-packaging' ? ointmentShowcase : slug === 'real-estate-key-visual' ? realEstateGallery[0] : slug === 'gangxin-brand-identity' ? gangxinGallery[0] : slug === 'erectus-faucet' ? erectusGallery[0] : slug === 'dadi-website' ? dadiGallery[0] : order === 0 ? quyiGallery[0] : undefined,
     homeHero: slug === 'erectus-faucet' ? erectusGallery[0] : slug === 'dadi-website' ? dadiHomeHero : undefined,
     additionalCategories: slug === 'dadi-website' ? ['VI'] : undefined,
-    gallery: slug === 'gangxin-brand-identity' ? gangxinGallery : slug === 'erectus-faucet' ? erectusGallery : slug === 'dadi-website' ? dadiGallery : order === 0 ? [...quyiGallery, ...quyiAdditionalImages] : [],
+    gallery: slug === 'real-estate-key-visual' ? [...realEstateGallery.slice(1), realEstateGallery[0]!] : slug === 'gangxin-brand-identity' ? gangxinGallery : slug === 'erectus-faucet' ? erectusGallery : slug === 'dadi-website' ? dadiGallery : order === 0 ? [...quyiGallery, ...quyiAdditionalImages] : [],
     galleryRowDescriptions: slug === 'erectus-faucet' ? { 'erectus-1': erectusHeightDescription } : undefined,
-    galleryRows: slug === 'erectus-faucet' ? [['erectus-1'], ['erectus-2', 'erectus-3'], ['erectus-4']] : slug === 'dadi-website'
+    galleryRows: slug === 'real-estate-key-visual' ? [['real-estate-7'], ['real-estate-10', 'real-estate-8'], ['real-estate-9']] : slug === 'erectus-faucet' ? [['erectus-1'], ['erectus-2', 'erectus-3'], ['erectus-4']] : slug === 'dadi-website'
       ? [['dadi-1'], ['dadi-2', 'dadi-3'], ['dadi-6'], ['dadi-video-1'], ['dadi-video-2', 'dadi-video-3']]
       : order === 0 ? [['quyi-design-1'], ['quyi-design-2', 'quyi-design-4'], ['quyi-design-3', 'quyi-design-12'], ['quyi-2'], ['quyi-3'], ['quyi-4'], ['quyi-5', 'quyi-6']] : undefined,
+    ...(getProduceCarton(slug) ? { cover: getProduceCarton(slug)!.cover, gallery: getProduceCarton(slug)!.gallery } : {}),
   }),
 );
 

@@ -8,6 +8,7 @@ function scrollToTop() {
 const route = useRoute()
 const project = projects.find(item => item.slug === route.params.slug)
 if (!project) throw createError({ statusCode: 404, statusMessage: 'Project not found' })
+if (project.category === 'PACKAGE') await navigateTo({ path: '/work', query: { package: project.slug } }, { replace: true, redirectCode: 302 })
 const mainImage = project.gallery[0] ?? project.cover
 const galleryImages = project.gallery.slice(1)
 const configuredRows = (project.galleryRows ?? []).map(row =>
@@ -21,7 +22,7 @@ const galleryRows = [...configuredRows, ...galleryImages.filter(media => !groupe
 useSeoMeta({ title: `${project.title.en} — WILLLIN`, description: `${project.title.en} · ${project.title.zhTw}` })
 </script>
 <template>
-  <div v-if="project" class="content">
+  <div v-if="project && project.category !== 'PACKAGE'" class="content">
     <div class="project-top-link-space">
       <NuxtLink to="/work" class="text-link utility project-top-link"><img :src="replyIcon" width="24" height="24" alt="" aria-hidden="true" /> Back to work</NuxtLink>
     </div>

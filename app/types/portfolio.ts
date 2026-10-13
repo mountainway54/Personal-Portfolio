@@ -6,6 +6,7 @@ export interface Media {
   kind?: 'image' | 'video'
   sourcePath: string
   localSrc?: string
+  delivery?: 'local'
   cloudinaryPublicId?: string
   version?: string
   format?: 'gif'
@@ -29,7 +30,22 @@ export interface Project {
   date?: string
   role?: Bilingual
   externalUrl?: string
+  packaging?: Packaging
 }
+export const packagingFaces = ['front', 'back', 'top', 'bottom', 'left', 'right'] as const
+export type PackagingFace = typeof packagingFaces[number]
+export interface BoxPackaging {
+  shape: 'box'
+  dimensionsMm: { width: number; height: number; depth: number }
+  faces: Record<PackagingFace, { media: Media; rotation?: 0 | 90 | 180 | 270 }>
+}
+export interface CartonPackaging {
+  shape: 'carton'
+  dimensionsRatio: { width: number; height: number; depth: number }
+  paperColor: string
+  faces: Record<'front' | 'back' | 'left' | 'right', { media: Media; rotation?: 0 | 90 | 180 | 270 }>
+}
+export type Packaging = BoxPackaging | CartonPackaging
 export interface Experience {
   title: Bilingual
   company: Bilingual

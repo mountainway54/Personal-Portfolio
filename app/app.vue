@@ -5,5 +5,6 @@
     <main id="main" tabindex="-1"><NuxtPage /></main>
     <SiteFooter />
     <LoadingScreen />
+    <ClientOnly><PackagingModal /></ClientOnly>
   </div>
 </template>

@@ -13,7 +13,7 @@ useSeoMeta({
   <div class="content">
     <header class="page-intro">
       <p class="utility">Design portfolio</p>
-      <h1 class="page-title work-page-title">WORK</h1>
+      <h1 data-work-heading tabindex="-1" class="page-title work-page-title">WORK</h1>
     </header>
     <div class="filters" role="group" aria-label="Filter work">
       <button

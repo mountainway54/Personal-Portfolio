@@ -3,12 +3,57 @@ import assert from 'node:assert/strict'
 import { projects, filterProjects } from '../app/data/projects.ts'
 import { checkContent } from '../app/utils/content-check.ts'
 import { homeSlides } from '../app/data/home-slides.ts'
+import { existsSync } from 'node:fs'
+import { ointmentPackaging, produceCartons } from '../app/data/packaging.ts'
+import { packagingErrors } from '../app/utils/packaging.ts'
+
+test('packaging uses six complete local faces at the supplied dimensions', () => {
+  assert.deepEqual(ointmentPackaging.dimensionsMm, { width: 127, height: 35, depth: 35 })
+  assert.equal(ointmentPackaging.faces.left.media, ointmentPackaging.faces.right.media)
+  assert.deepEqual(packagingErrors(ointmentPackaging, '', path => existsSync(new URL(`../public${path}`, import.meta.url))), [])
+  const copy = structuredClone(projects)
+  const ointment = copy.find(project => project.slug === 'ointment-packaging')!
+  ointment.status = 'ready'
+  ointment.description = { en: 'Packaging design', zhTw: '包裝設計' }
+  assert.deepEqual(checkContent(copy, 'release', 'akx9y9c8', () => true).filter(error => error.startsWith(ointment.slug)), [])
+})
+test('packaging rejects invalid dimensions, missing faces and missing files', () => {
+  const invalid = structuredClone(ointmentPackaging)
+  invalid.dimensionsMm.width = NaN
+  invalid.dimensionsMm.depth = 0
+  Reflect.deleteProperty(invalid.faces, 'front')
+  const errors = packagingErrors(invalid, '', () => false)
+  assert(errors.some(error => error.includes('width')))
+  assert(errors.some(error => error.includes('depth')))
+  assert(errors.some(error => error.includes('front: missing texture')))
+  assert(errors.some(error => error.includes('back: missing local texture file')))
+  assert(packagingErrors(undefined).includes('missing packaging configuration'))
+})
 test('source catalog is complete, bilingual and previewable', () => {
   assert.deepEqual(checkContent(projects, 'preview'), [])
   assert.equal(filterProjects('WEB').length, 2)
-  assert.equal(filterProjects('ALL').length, 13)
+  assert.equal(filterProjects('ALL').length, 15)
   assert.equal(projects[0]!.gallery.length, 11)
   assert.equal(projects[0]!.gallery[3]!.height, 2400)
+})
+test('produce cartons are three distinct projects with valid local artwork and relative dimensions', () => {
+  assert.equal(filterProjects('PACKAGE').length, 4)
+  assert.equal(projects.some(project => project.slug === 'produce-carton'), false)
+  for (const [slug, carton] of Object.entries(produceCartons)) {
+    const project = projects.find(project => project.slug === slug)!
+    assert.equal(project.category, 'PACKAGE')
+    assert.equal(project.cover, carton.cover)
+    assert.equal(carton.packaging.shape, 'carton')
+    assert.equal(carton.packaging.faces.front.media, carton.packaging.faces.back.media)
+    assert.equal(carton.packaging.faces.left.media, carton.packaging.faces.right.media)
+    assert.equal(carton.packaging.paperColor, slug === 'cucumber-carton' ? '#ceb18a' : '#ffffff')
+    assert.deepEqual(packagingErrors(carton.packaging, '', path => existsSync(new URL(`../public${path}`, import.meta.url))), [])
+    const copy = structuredClone(projects)
+    const ready = copy.find(item => item.slug === slug)!
+    ready.status = 'ready'
+    ready.description = { en: 'Carton design', zhTw: '紙箱設計' }
+    assert.deepEqual(checkContent(copy, 'release', 'akx9y9c8', () => true).filter(error => error.startsWith(slug)), [])
+  }
 })
 test('content defects fail preview checks', () => {
   const copy = structuredClone(projects)
