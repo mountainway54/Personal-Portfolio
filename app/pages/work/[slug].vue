@@ -44,7 +44,7 @@ useSeoMeta({ title: `${project.title.en} — WILLLIN`, description: `${project.t
       <div v-for="row in galleryRows" :key="row.map(media => media.id).join('-')" class="project-gallery-row" :style="{ '--gallery-columns': project.galleryColumns ?? row.length }">
         <figure v-for="media in row" :key="media.id" style="margin:0; min-width:0">
           <ProjectVideo v-if="media.kind === 'video' || media.kind === 'youtube'" :media="media" />
-          <CloudinaryImage v-else :media="media" reveal-direction="up" :sizes="(project.galleryColumns ?? row.length) > 1 ? '(min-width: 1440px) 625px, (min-width: 768px) 45vw, 90vw' : '(min-width: 1440px) 1280px, 90vw'" />
+          <CloudinaryImage v-else :media="media" :crop="project.slug === 'gangxin-brand-identity' && row[0]?.id === 'gangxin-print'" reveal-direction="up" :sizes="(project.galleryColumns ?? row.length) > 1 ? '(min-width: 1440px) 625px, (min-width: 768px) 45vw, 90vw' : '(min-width: 1440px) 1280px, 90vw'" />
         </figure>
         <div v-if="project.galleryRowDescriptions?.[row[0]!.id]" class="project-description project-gallery-description">
           <p>{{ project.galleryRowDescriptions[row[0]!.id]!.en }}</p>

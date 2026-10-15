@@ -19,7 +19,7 @@ useImageReveal(frame, computed(() => props.reveal), props.revealDirection, props
 onMounted(() => { if (!src.value || image.value?.complete) emit('settled') })
 </script>
 <template>
-  <div ref="frame" class="media-frame" :style="{ aspectRatio: crop ? '16 / 9' : `${media.width} / ${media.height}` }">
+  <div ref="frame" class="media-frame" :class="{ 'media-frame--crop': crop }" :style="{ aspectRatio: crop ? '16 / 9' : `${media.width} / ${media.height}` }">
     <img v-if="src && !failed" ref="image" :src="src" :srcset="srcset" :sizes="sizes" :width="media.width" :height="media.height" :alt="media.alt.en" :loading="priority ? 'eager' : 'lazy'" :fetchpriority="priority ? 'high' : 'auto'" :data-priority="priority || undefined" @load="emit('settled')" @error="fail" />
     <div v-else class="media-placeholder" role="img" :aria-label="media.alt.en"><span>{{ failed ? 'Image unavailable' : 'Image coming soon' }}</span><span>{{ media.alt.en }}</span><span lang="zh-Hant">{{ media.alt.zhTw }}</span></div>
   </div>

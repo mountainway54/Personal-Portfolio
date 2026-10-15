@@ -197,21 +197,38 @@ const erectusHeightDescription: Bilingual = {
   zhTw: "一般家中洗手台的高度為 80–85 cm，通常都是為了洗手設計的，但一般我們使用洗手台不只會洗手。刷牙、洗臉時避免過度彎腰，需要更高的高度，大概介於 110–120 cm。藉由能夠調整出水高度、方向的水龍頭，能夠避免在洗臉時過度前傾，壓迫到神經，同時也能夠更省力。",
   en: "Home washbasins are generally 80–85 cm high and designed for washing hands, but we use them for more than that. To avoid excessive bending when brushing teeth or washing the face, the water outlet should be higher, at around 110–120 cm. A faucet with adjustable water height and direction can help avoid leaning too far forward and compressing nerves while washing the face, while also reducing effort.",
 };
-const gangxinGallery: Media[] = [
-  {
-    id: "gangxin-main",
-    sourcePath:
-      "https://res.cloudinary.com/akx9y9c8/image/upload/v1791800748/gangxin_hero_2.webp",
-    cloudinaryPublicId: "gangxin_hero_2",
-    version: "1791800748",
-    width: 2022,
-    height: 778,
-    alt: {
-      en: "Gangxin day care centre brand identity",
-      zhTw: "Gangxin 日間照顧中心品牌識別",
-    },
+const gangxinCover: Media = {
+  id: "gangxin-cover",
+  sourcePath:
+    "https://res.cloudinary.com/akx9y9c8/image/upload/v1791800748/gangxin_hero_2.webp",
+  cloudinaryPublicId: "gangxin_hero_2",
+  version: "1791800748",
+  width: 2022,
+  height: 778,
+  alt: {
+    en: "Gangxin day care centre brand identity",
+    zhTw: "Gangxin 日間照顧中心品牌識別",
   },
-];
+};
+const gangxinGallery: Media[] = [
+  ["main", "gangxin_hero_2", "1791858898", 1621, 778],
+  ["1", "gangxin_1_1", "1792052323", 4000, 2250],
+  ["2", "gangxin_1_2", "1792052323", 4001, 2250],
+  ["3", "gangxin_1_3", "1792052323", 4001, 2250],
+  ["print", "gangxin_print", "1792052505", 1459, 1078],
+  ["hero-2", "gangXin_hero", "1792052323", 1536, 1024],
+].map(([id, publicId, version, width, height]) => ({
+  id: `gangxin-${id}`,
+  sourcePath: `https://res.cloudinary.com/akx9y9c8/image/upload/v${version}/${publicId}.webp`,
+  cloudinaryPublicId: String(publicId),
+  version: String(version),
+  width: Number(width),
+  height: Number(height),
+  alt: {
+    en: `Gangxin day care centre brand identity — ${id}`,
+    zhTw: `Gangxin 日間照顧中心品牌識別 — ${id}`,
+  },
+}));
 const realEstateGallery: Media[] = [
   [9, "1791860960", 2200, 1237],
   [6, "1791860961", 3656, 2057],
@@ -424,6 +441,24 @@ const realEstateSocialGallery = [
     zhTw: `${realEstateSocialAlt.zhTw} ${number}`,
   },
 ));
+const associationMedia: Media[] = [
+  [1, "1792047263", 2000, 2000],
+  [5, "1792047262", 3840, 2160],
+  [2, "1792047263", 3840, 2160],
+  [4, "1792047263", 3841, 2160],
+  [3, "1792047263", 3840, 2160],
+].map(([number, version, width, height]) => ({
+  id: `association-${number}`,
+  sourcePath: `https://res.cloudinary.com/akx9y9c8/image/upload/v${version}/TLIA${number}.webp`,
+  cloudinaryPublicId: `TLIA${number}`,
+  version: String(version),
+  width: Number(width),
+  height: Number(height),
+  alt: {
+    en: `Association brand identity design ${number}`,
+    zhTw: `協會品牌識別設計 ${number}`,
+  },
+}));
 const entries: [string, Category, string, string][] = [
   [
     "quyi-brand-identity",
@@ -516,7 +551,7 @@ export const projects: Project[] = entries.map(
         : slug === "real-estate-key-visual"
           ? realEstateGallery[0]
           : slug === "gangxin-brand-identity"
-            ? gangxinGallery[0]
+            ? gangxinCover
             : slug === "erectus-faucet"
               ? erectusGallery[0]
               : slug === "dadi-website"
@@ -575,6 +610,27 @@ export const projects: Project[] = entries.map(
                   ["quyi-5", "quyi-6"],
                 ]
               : undefined,
+    ...(slug === "gangxin-brand-identity"
+      ? {
+          galleryRows: [
+            ["gangxin-1"],
+            ["gangxin-2", "gangxin-3"],
+            ["gangxin-print", "gangxin-hero-2"],
+          ],
+        }
+      : {}),
+    ...(slug === "association-brand-identity"
+      ? {
+          status: "ready" as const,
+          description: {
+            en: "Brand identity design for an association.",
+            zhTw: "協會品牌識別設計。",
+          },
+          cover: associationMedia[0],
+          gallery: associationMedia.slice(1),
+          galleryRows: [["association-2"], ["association-4", "association-3"]],
+        }
+      : {}),
     ...(slug === "bicycle-accessories"
       ? {
           status: "ready" as const,

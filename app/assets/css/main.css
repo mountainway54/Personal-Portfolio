@@ -480,6 +480,14 @@ p {
   width: 100%;
   height: auto;
 }
+.media-frame--crop img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 .media-placeholder {
   width: 100%;
   height: 100%;
