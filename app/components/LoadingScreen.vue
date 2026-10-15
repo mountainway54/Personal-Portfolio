@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { loadingLimitMs } from '~/utils/loading'
 // Render the overlay during SSR so the page cannot flash before hydration.
-const visible = ref(true)
+const visible = useState<boolean>('portfolio-loading-visible', () => true)
 const loading = ref(true)
 let timer: ReturnType<typeof setTimeout> | undefined
 let image: HTMLImageElement | null = null

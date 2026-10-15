@@ -2,6 +2,14 @@
 import { projects } from '~/data/projects'
 import { homeSlides } from '~/data/home-slides'
 import outwardIcon from '~/assets/icon/arrow_outward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg'
+const homeProjects = [
+  'quyi-brand-identity',
+  'interactive-installation',
+  'dadi-website',
+  'office-politics-game',
+  'erectus-faucet',
+  'real-estate-key-visual',
+].map(slug => projects.find(project => project.slug === slug)!)
 useSeoMeta({ title: 'WILLLIN — Design portfolio', description: 'Brand, visual and interaction design by Will Lin. 品牌、視覺與互動設計作品集。' })
 </script>
 <template>
@@ -10,7 +18,7 @@ useSeoMeta({ title: 'WILLLIN — Design portfolio', description: 'Brand, visual 
     <ProjectHero :slides="homeSlides" />
     <section class="works-section content" aria-labelledby="work-heading">
       <div class="section-bar"><h2 id="work-heading" data-work-heading tabindex="-1" class="section-heading">WORK</h2><NuxtLink to="/work" class="text-link utility explore-work" aria-label="Explore work">Explore <img :src="outwardIcon" class="explore-work-icon" width="24" height="24" alt="" aria-hidden="true" /></NuxtLink></div>
-      <div class="work-grid"><ProjectCard v-for="project in projects" :key="project.slug" :project="project" /></div>
+      <div class="work-grid"><ProjectCard v-for="project in homeProjects" :key="project.slug" :project="project" /></div>
     </section>
   </div>
 </template>

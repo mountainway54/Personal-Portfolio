@@ -25,7 +25,9 @@ export function checkContent(projects: Project[], mode: 'preview' | 'release', c
       if (mediaIds.has(media.id)) errors.push(`${project.slug}/${media.id}: duplicate gallery image`)
       mediaIds.add(media.id)
       if (!bilingual(media.alt) || !media.sourcePath || media.width <= 0 || media.height <= 0) errors.push(`${project.slug}/${media.id}: invalid image metadata`)
-      if (media.kind === 'video') {
+      if (media.kind === 'youtube') {
+        if (!/^https:\/\/www\.youtube\.com\/embed\/[a-zA-Z0-9_-]{11}(?:\?[^#\s]*)?$/.test(media.sourcePath)) errors.push(`${project.slug}/${media.id}: invalid YouTube embed URL`)
+      } else if (media.kind === 'video') {
         if (!/^https:\/\/res\.cloudinary\.com\/[a-zA-Z0-9_-]+\/video\/upload\/.+\.mp4$/.test(media.sourcePath)) errors.push(`${project.slug}/${media.id}: invalid video URL`)
       } else if (project.category === 'PACKAGE' && isLocalPackagingPath(media.localSrc)) {
         if (localExists && !localExists(media.localSrc)) errors.push(`${project.slug}/${media.id}: missing local image file`)

@@ -8,12 +8,13 @@ const props = defineProps<{ slides: { project?: Project; media: Media }[] }>()
 const active = ref(0)
 const slide = computed(() => props.slides[active.value])
 const { open: openPackaging, isOpen: packagingOpen } = usePackagingModal()
+const loadingVisible = useState<boolean>('portfolio-loading-visible', () => true)
 let autoplayTimer: ReturnType<typeof setTimeout> | undefined
 let mounted = false
 function restartAutoplay() {
   clearTimeout(autoplayTimer)
   autoplayTimer = undefined
-  if (!mounted || props.slides.length <= 1 || packagingOpen.value) return
+  if (!mounted || props.slides.length <= 1 || packagingOpen.value || loadingVisible.value) return
   autoplayTimer = setTimeout(() => { step(1) }, 3000)
 }
 function selectSlide(index: number) {
@@ -25,6 +26,7 @@ function step(offset: number) {
 }
 watch(() => props.slides.length, () => { selectSlide(0) })
 watch(packagingOpen, restartAutoplay)
+watch(loadingVisible, restartAutoplay, { flush: 'post' })
 onMounted(() => {
   mounted = true
   restartAutoplay()

@@ -12,7 +12,8 @@ function loaded(event: Event) {
 </script>
 <template>
   <div ref="frame" class="media-frame project-video" :style="{ aspectRatio }">
-    <video v-if="!failed" :src="media.sourcePath" :aria-label="`${media.alt.en} · ${media.alt.zhTw}`" autoplay muted loop playsinline controls preload="metadata" @loadedmetadata="loaded" @error="failed = true" />
+    <iframe v-if="media.kind === 'youtube'" :src="media.sourcePath" :title="`${media.alt.en} · ${media.alt.zhTw}`" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen />
+    <video v-else-if="!failed" :src="media.sourcePath" :aria-label="`${media.alt.en} · ${media.alt.zhTw}`" autoplay muted loop playsinline controls preload="metadata" @loadedmetadata="loaded" @error="failed = true" />
     <div v-else class="media-placeholder" role="img" :aria-label="media.alt.en"><span>Video unavailable</span><span lang="zh-Hant">影片暫時無法載入</span></div>
   </div>
 </template>

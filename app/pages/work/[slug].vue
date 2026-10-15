@@ -9,8 +9,8 @@ const route = useRoute()
 const project = projects.find(item => item.slug === route.params.slug)
 if (!project) throw createError({ statusCode: 404, statusMessage: 'Project not found' })
 if (project.category === 'PACKAGE') await navigateTo({ path: '/work', query: { package: project.slug } }, { replace: true, redirectCode: 302 })
-const mainImage = project.gallery[0] ?? project.cover
-const galleryImages = project.gallery.slice(1)
+const mainImage = project.showMainImage === false ? undefined : project.gallery[0] ?? project.cover
+const galleryImages = project.showMainImage === false ? project.gallery : project.gallery.slice(1)
 const configuredRows = (project.galleryRows ?? []).map(row =>
   row.flatMap(id => {
     const media = galleryImages.find(image => image.id === id)
@@ -37,14 +37,14 @@ useSeoMeta({ title: `${project.title.en} — WILLLIN`, description: `${project.t
       </div>
       <div v-if="project.description" class="project-description"><p>{{ project.description.en }}</p><p lang="zh-Hant">{{ project.description.zhTw }}</p></div>
       <dl v-if="project.date || project.role" class="project-description"><div v-if="project.date"><dt class="utility">Date</dt><dd>{{ project.date }}</dd></div><div v-if="project.role"><dt class="utility">Role</dt><dd>{{ project.role.en }}<span lang="zh-Hant">{{ project.role.zhTw }}</span></dd></div></dl>
-      <a v-if="project.externalUrl" :href="project.externalUrl" class="text-link" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+      <a v-if="project.externalUrl" :href="project.externalUrl" class="text-link" target="_blank" rel="noopener noreferrer">{{ project.externalUrl.startsWith('https://github.com/') ? 'View on GitHub ↗' : 'Visit website ↗' }}</a>
       <div v-if="project.status === 'pending'" class="project-pending"><span>Content coming soon{{ project.gallery.length ? ' · Project story to follow' : '' }}</span><span lang="zh-Hant">{{ project.gallery.length ? '作品介紹待補，以下為實際作品影像。' : '作品內容待補。' }}</span></div>
     </header>
     <div v-if="galleryRows.length" class="project-gallery">
-      <div v-for="row in galleryRows" :key="row.map(media => media.id).join('-')" class="project-gallery-row" :style="{ '--gallery-columns': row.length }">
+      <div v-for="row in galleryRows" :key="row.map(media => media.id).join('-')" class="project-gallery-row" :style="{ '--gallery-columns': project.galleryColumns ?? row.length }">
         <figure v-for="media in row" :key="media.id" style="margin:0; min-width:0">
-          <ProjectVideo v-if="media.kind === 'video'" :media="media" />
-          <CloudinaryImage v-else :media="media" reveal-direction="up" :sizes="row.length > 1 ? '(min-width: 1440px) 625px, (min-width: 768px) 45vw, 90vw' : '(min-width: 1440px) 1280px, 90vw'" />
+          <ProjectVideo v-if="media.kind === 'video' || media.kind === 'youtube'" :media="media" />
+          <CloudinaryImage v-else :media="media" reveal-direction="up" :sizes="(project.galleryColumns ?? row.length) > 1 ? '(min-width: 1440px) 625px, (min-width: 768px) 45vw, 90vw' : '(min-width: 1440px) 1280px, 90vw'" />
         </figure>
         <div v-if="project.galleryRowDescriptions?.[row[0]!.id]" class="project-description project-gallery-description">
           <p>{{ project.galleryRowDescriptions[row[0]!.id]!.en }}</p>

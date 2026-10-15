@@ -88,6 +88,14 @@ test('construction videos replace GIFs in the fourth and fifth gallery rows', ()
   assert.deepEqual(project.galleryRows?.[4], ['dadi-video-2', 'dadi-video-3'])
   assert.equal(project.gallery.slice(1).filter(media => media.kind !== 'video').length, 9)
 })
+test('SketchBug YouTube embeds pass release validation and reject other iframe hosts', () => {
+  const copy = structuredClone(projects)
+  const project = copy.find(project => project.slug === 'interactive-installation')!
+  assert.deepEqual(checkContent(copy, 'release', 'akx9y9c8').filter(error => error.startsWith(project.slug)), [])
+  const video = project.gallery.find(media => media.kind === 'youtube')!
+  video.sourcePath = 'https://www.youtube.com.example.org/embed/P9aTP-52y5o'
+  assert(checkContent(copy, 'preview').some(error => error.includes('invalid YouTube embed URL')))
+})
 test('incomplete assets cannot be declared ready for release', () => {
   const errors = checkContent(projects, 'release')
   assert(errors.some(error => error.includes('cloud name')))

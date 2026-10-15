@@ -3,7 +3,7 @@ export const categories = ['VI', 'PACKAGE', 'CONCEPT', 'WEB', 'SOCIAL MEDIA'] as
 export type Category = typeof categories[number]
 export interface Media {
   id: string
-  kind?: 'image' | 'video'
+  kind?: 'image' | 'video' | 'youtube'
   sourcePath: string
   localSrc?: string
   delivery?: 'local'
@@ -23,9 +23,11 @@ export interface Project {
   status: 'pending' | 'ready'
   description?: Bilingual
   cover?: Media
+  showMainImage?: boolean
   homeHero?: Media
   gallery: Media[]
   galleryRows?: string[][]
+  galleryColumns?: number
   galleryRowDescriptions?: Record<string, Bilingual>
   date?: string
   role?: Bilingual
