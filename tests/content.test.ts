@@ -69,11 +69,26 @@ test('content defects fail preview checks', () => {
 
 test('home carousel uses the five requested images and matching project links', () => {
   assert.deepEqual(homeSlides.map(slide => slide.media.cloudinaryPublicId), ['SketchBug_hero', 'quyi-5', 'gangxin_hero_2', 'EarthConstruction_hero', 'faucet_hero'])
-  assert.deepEqual(homeSlides.map(slide => slide.project?.slug), ['interactive-installation', 'quyi-brand-identity', 'gangxin-brand-identity', 'dadi-website', 'erectus-faucet'])
-  const gangxin = projects.find(project => project.slug === 'gangxin-brand-identity')!
+  assert.deepEqual(homeSlides.map(slide => slide.project?.slug), ['interactive-installation', 'day-care-brand-identity-01', 'day-care-brand-identity-02', 'dadi-website', 'erectus-faucet'])
+  const gangxin = projects.find(project => project.slug === 'day-care-brand-identity-02')!
   assert.equal(gangxin.category, 'VI')
   assert.equal(gangxin.title.zhTw, '日間照顧中心品牌識別')
   assert.equal(gangxin.cover?.cloudinaryPublicId, 'gangxin_hero_2')
+})
+
+test('public copy and project routes omit client brand names', () => {
+  const forbidden = /gangxin|quyi|耆寓/i
+  for (const project of projects) {
+    const copy = [project.slug, project.title, project.description, project.role, project.galleryRowDescriptions]
+    const media = [project.cover, project.homeHero, ...project.gallery].filter(item => item !== undefined)
+    assert.equal(forbidden.test(JSON.stringify([...copy, ...media.map(item => item.alt)])), false, project.slug)
+  }
+  for (const slide of homeSlides) {
+    assert.equal(forbidden.test(JSON.stringify([slide.project?.slug, slide.media.alt])), false)
+    assert(slide.project)
+  }
+  assert(projects.some(project => project.slug === 'day-care-brand-identity-01'))
+  assert(projects.some(project => project.slug === 'day-care-brand-identity-02'))
 })
 
 test('construction videos replace GIFs in the fourth and fifth gallery rows', () => {
@@ -100,7 +115,7 @@ test('incomplete assets cannot be declared ready for release', () => {
   const errors = checkContent(projects, 'release')
   assert(errors.some(error => error.includes('cloud name')))
   assert(errors.some(error => error.includes('association-brand-identity: missing cover')))
-  assert(errors.some(error => error.includes('quyi-brand-identity: missing bilingual description')))
+  assert(errors.some(error => error.includes('day-care-brand-identity-01: missing bilingual description')))
 })
 
 test('erectus has complete bilingual content and the requested gallery layout', () => {

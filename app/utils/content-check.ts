@@ -38,7 +38,7 @@ export function checkContent(projects: Project[], mode: 'preview' | 'release', c
     } else if (mode === 'release' && project.cover && !cloudinaryUrl(cloudName, project.cover, 768)) errors.push(`${project.slug}: missing cover Cloudinary mapping`)
   }
   for (const category of categories) if (!projects.some(project => project.category === category)) errors.push(`${category}: missing category`)
-  const quyi = projects.find(project => project.slug === 'quyi-brand-identity')
-  if (quyi?.gallery.filter(media => /^quyi-\d+$/.test(media.id)).map(media => media.id).join(',') !== 'quyi-1,quyi-2,quyi-3,quyi-4,quyi-5,quyi-6') errors.push('quyi-brand-identity: expected six source images in order')
+  const quyi = projects.find(project => project.slug === 'day-care-brand-identity-01')
+  if (quyi?.gallery.filter(media => /^quyi-\d+$/.test(media.id)).map(media => media.id).join(',') !== 'quyi-1,quyi-2,quyi-3,quyi-4,quyi-5,quyi-6') errors.push('day-care-brand-identity-01: expected six source images in order')
   return errors
 }

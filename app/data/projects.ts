@@ -13,25 +13,25 @@ import {
 
 const alt: Bilingual[] = [
   {
-    en: "Quyi day care centre reception and brand signage",
-    zhTw: "耆寓日間照顧中心接待空間與品牌標示",
+    en: "Day care centre reception and brand signage",
+    zhTw: "日間照顧中心接待空間與品牌標示",
   },
   {
-    en: "Quyi business cards with geometric brand graphics",
-    zhTw: "耆寓名片與幾何品牌圖形",
+    en: "Business cards with geometric brand graphics",
+    zhTw: "名片與幾何品牌圖形",
   },
   {
-    en: "Quyi printed leaflets with brand colours and patterns",
-    zhTw: "耆寓文宣與品牌色彩、圖樣應用",
+    en: "Printed leaflets with brand colours and patterns",
+    zhTw: "文宣與品牌色彩、圖樣應用",
   },
-  { en: "Quyi branded envelope and stationery", zhTw: "耆寓品牌信封與信紙" },
+  { en: "Branded envelope and stationery", zhTw: "品牌信封與信紙" },
   {
-    en: "Quyi canvas tote bag with character illustrations",
-    zhTw: "耆寓帆布提袋與角色插畫",
+    en: "Canvas tote bag with character illustrations",
+    zhTw: "帆布提袋與角色插畫",
   },
   {
-    en: "Two Quyi tote bag designs featuring geometric characters",
-    zhTw: "兩款耆寓幾何角色帆布提袋設計",
+    en: "Two tote bag designs featuring geometric characters",
+    zhTw: "兩款幾何角色帆布提袋設計",
   },
 ];
 export const quyiGallery: Media[] = alt.map((text, index) => {
@@ -65,8 +65,8 @@ const quyiAdditionalImages: Media[] = [
     width: 3840,
     height: 2160,
     alt: {
-      en: `Quyi brand identity design ${number}`,
-      zhTw: `耆寓品牌識別設計 ${number}`,
+      en: `Brand identity design ${number}`,
+      zhTw: `品牌識別設計 ${number}`,
     },
   };
 });
@@ -206,8 +206,8 @@ const gangxinCover: Media = {
   width: 2022,
   height: 778,
   alt: {
-    en: "Gangxin day care centre brand identity",
-    zhTw: "Gangxin 日間照顧中心品牌識別",
+    en: "Day care centre brand identity",
+    zhTw: "日間照顧中心品牌識別",
   },
 };
 const gangxinGallery: Media[] = [
@@ -225,8 +225,8 @@ const gangxinGallery: Media[] = [
   width: Number(width),
   height: Number(height),
   alt: {
-    en: `Gangxin day care centre brand identity — ${id}`,
-    zhTw: `Gangxin 日間照顧中心品牌識別 — ${id}`,
+    en: `Day care centre brand identity — ${id}`,
+    zhTw: `日間照顧中心品牌識別 — ${id}`,
   },
 }));
 const realEstateGallery: Media[] = [
@@ -461,15 +461,15 @@ const associationMedia: Media[] = [
 }));
 const entries: [string, Category, string, string][] = [
   [
-    "quyi-brand-identity",
+    "day-care-brand-identity-01",
     "VI",
     "Day care centre brand identity",
     "日間照顧中心品牌識別",
   ],
   [
-    "gangxin-brand-identity",
+    "day-care-brand-identity-02",
     "VI",
-    "Gangxin day care centre brand identity",
+    "Day care centre brand identity",
     "日間照顧中心品牌識別",
   ],
   [
@@ -550,7 +550,7 @@ export const projects: Project[] = entries.map(
         ? ointmentShowcase
         : slug === "real-estate-key-visual"
           ? realEstateGallery[0]
-          : slug === "gangxin-brand-identity"
+          : slug === "day-care-brand-identity-02"
             ? gangxinCover
             : slug === "erectus-faucet"
               ? erectusGallery[0]
@@ -569,7 +569,7 @@ export const projects: Project[] = entries.map(
     gallery:
       slug === "real-estate-key-visual"
         ? [...realEstateGallery.slice(1), realEstateGallery[0]!]
-        : slug === "gangxin-brand-identity"
+        : slug === "day-care-brand-identity-02"
           ? gangxinGallery
           : slug === "erectus-faucet"
             ? erectusGallery
@@ -610,7 +610,7 @@ export const projects: Project[] = entries.map(
                   ["quyi-5", "quyi-6"],
                 ]
               : undefined,
-    ...(slug === "gangxin-brand-identity"
+    ...(slug === "day-care-brand-identity-02"
       ? {
           galleryRows: [
             ["gangxin-1"],
