@@ -409,7 +409,13 @@ const officePoliticsGallery: Media[] = [
     }),
   ),
 ];
-function socialMediaImage(publicId: string, version: string, width: number, height: number, alt: Bilingual): Media {
+function socialMediaImage(
+  publicId: string,
+  version: string,
+  width: number,
+  height: number,
+  alt: Bilingual,
+): Media {
   return {
     id: publicId,
     sourcePath: `https://res.cloudinary.com/akx9y9c8/image/upload/v${version}/${publicId}.webp`,
@@ -420,13 +426,25 @@ function socialMediaImage(publicId: string, version: string, width: number, heig
     alt,
   };
 }
-const memoryAlt: Bilingual = { en: "Memory product social media design", zhTw: "記憶體社群素材" };
-const realEstateSocialAlt: Bilingual = { en: "Real estate social media design", zhTw: "房地產社群素材" };
-const memorySocialGallery = [1, 2, 3, 4, 5].map(number =>
-  socialMediaImage(`memory${number}`, "1791973342", number <= 3 ? 680 : 2048, number <= 3 ? 680 : 2048, {
-    en: `${memoryAlt.en} ${number}`,
-    zhTw: `${memoryAlt.zhTw} ${number}`,
-  }),
+const memoryAlt: Bilingual = {
+  en: "Memory product social media design",
+  zhTw: "記憶體社群素材",
+};
+const realEstateSocialAlt: Bilingual = {
+  en: "Real estate social media design",
+  zhTw: "房地產社群素材",
+};
+const memorySocialGallery = [1, 2, 3, 4, 5].map((number) =>
+  socialMediaImage(
+    `memory${number}`,
+    "1791973342",
+    number <= 3 ? 680 : 2048,
+    number <= 3 ? 680 : 2048,
+    {
+      en: `${memoryAlt.en} ${number}`,
+      zhTw: `${memoryAlt.zhTw} ${number}`,
+    },
+  ),
 );
 const realEstateSocialGallery = [
   [5, 1138, 1138],
@@ -435,12 +453,18 @@ const realEstateSocialGallery = [
   [3, 1021, 1015],
   [2, 1023, 1020],
   [1, 1332, 1334],
-].map(([number, width, height]) => socialMediaImage(
-  `constructionSocialMedia${number}`, number! <= 2 ? "1791973360" : "1791973361", width!, height!, {
-    en: `${realEstateSocialAlt.en} ${number}`,
-    zhTw: `${realEstateSocialAlt.zhTw} ${number}`,
-  },
-));
+].map(([number, width, height]) =>
+  socialMediaImage(
+    `constructionSocialMedia${number}`,
+    number! <= 2 ? "1791973360" : "1791973361",
+    width!,
+    height!,
+    {
+      en: `${realEstateSocialAlt.en} ${number}`,
+      zhTw: `${realEstateSocialAlt.zhTw} ${number}`,
+    },
+  ),
+);
 const associationMedia: Media[] = [
   [1, "1792047263", 2000, 2000],
   [5, "1792047262", 3840, 2160],
@@ -498,8 +522,8 @@ const entries: [string, Category, string, string][] = [
   [
     "erectus-faucet",
     "CONCEPT",
-    "erectus face-washing faucet",
-    "erectus 洗臉水龍頭",
+    "erectus universal design faucet",
+    "erectus 通用設計水龍頭",
   ],
   [
     "dadi-website",
@@ -507,7 +531,7 @@ const entries: [string, Category, string, string][] = [
     "Construction company brand identity & website design",
     "建設公司 識別設計 官網設計",
   ],
-  ["office-politics-game", "WEB", "Office Politics Game", "職場風雲"],
+  ["office-politics-game", "WEB", "Office Politics", "職場風雲"],
   [
     "memory-social-media",
     "SOCIAL MEDIA",
@@ -541,7 +565,7 @@ export const projects: Project[] = entries.map(
       slug === "interactive-installation"
         ? sketchBugDescription
         : slug === "real-estate-key-visual"
-          ? { en: "This project is a design proposal.", zhTw: "此案為提案。" }
+          ? { en: "This project is a design proposal.", zhTw: "此案為提案" }
           : slug === "erectus-faucet"
             ? erectusDescription
             : undefined,
@@ -622,10 +646,6 @@ export const projects: Project[] = entries.map(
     ...(slug === "association-brand-identity"
       ? {
           status: "ready" as const,
-          description: {
-            en: "Brand identity design for an association.",
-            zhTw: "協會品牌識別設計。",
-          },
           cover: associationMedia[0],
           gallery: associationMedia.slice(1),
           galleryRows: [["association-2"], ["association-4", "association-3"]],
@@ -655,6 +675,11 @@ export const projects: Project[] = entries.map(
     ...(slug === "interactive-installation"
       ? {
           cover: sketchBugGallery[0],
+          note: {
+            zhTw: "此作品為碩士論文衍伸創作。",
+            en: "This work is a creative extension of my master's thesis.",
+            url: "https://hdl.handle.net/11296/wh2vez",
+          },
           gallery: sketchBugGallery,
           galleryRows: [
             ["sketchbug-01"],
@@ -670,20 +695,35 @@ export const projects: Project[] = entries.map(
           status: "ready" as const,
           showMainImage: false,
           galleryColumns: 2,
-          description: slug === "memory-social-media"
-            ? { en: "Social media visual design for memory products.", zhTw: "記憶體產品社群視覺設計。" }
-            : { en: "Social media visual design for real estate.", zhTw: "房地產社群視覺設計。" },
-          cover: slug === "memory-social-media"
-            ? socialMediaImage("memory", "1791973343", 2084, 2084, memoryAlt)
-            : socialMediaImage("constructionSocialMedia", "1791973362", 2084, 2084, realEstateSocialAlt),
-          gallery: slug === "memory-social-media" ? memorySocialGallery : realEstateSocialGallery,
-          galleryRows: slug === "memory-social-media"
-            ? [["memory1", "memory2"], ["memory3", "memory4"], ["memory5"]]
-            : [
-                ["constructionSocialMedia5", "constructionSocialMedia6"],
-                ["constructionSocialMedia4", "constructionSocialMedia3"],
-                ["constructionSocialMedia2", "constructionSocialMedia1"],
-              ],
+          description:
+            slug === "memory-social-media"
+              ? undefined
+              : {
+                  en: "Social media visual design for real estate.",
+                  zhTw: "房地產社群素材設計",
+                },
+          cover:
+            slug === "memory-social-media"
+              ? socialMediaImage("memory", "1791973343", 2084, 2084, memoryAlt)
+              : socialMediaImage(
+                  "constructionSocialMedia",
+                  "1791973362",
+                  2084,
+                  2084,
+                  realEstateSocialAlt,
+                ),
+          gallery:
+            slug === "memory-social-media"
+              ? memorySocialGallery
+              : realEstateSocialGallery,
+          galleryRows:
+            slug === "memory-social-media"
+              ? [["memory1", "memory2"], ["memory3", "memory4"], ["memory5"]]
+              : [
+                  ["constructionSocialMedia5", "constructionSocialMedia6"],
+                  ["constructionSocialMedia4", "constructionSocialMedia3"],
+                  ["constructionSocialMedia2", "constructionSocialMedia1"],
+                ],
         }
       : {}),
     ...(slug === "office-politics-game"
@@ -695,6 +735,8 @@ export const projects: Project[] = entries.map(
           },
           externalUrl:
             "https://github.com/Office-Politics-Game/Office-Politics-Game",
+          externalNote:
+            "此為前端應用開發工程師培訓過程中所製作的團體專案，成員名單詳見 GitHub repo。",
           gallery: officePoliticsGallery,
           galleryRows: [
             ["office-politics-video"],

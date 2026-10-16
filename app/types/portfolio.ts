@@ -22,6 +22,7 @@ export interface Project {
   title: Bilingual
   status: 'pending' | 'ready'
   description?: Bilingual
+  note?: Bilingual & { url?: string }
   cover?: Media
   showMainImage?: boolean
   homeHero?: Media
@@ -32,6 +33,7 @@ export interface Project {
   date?: string
   role?: Bilingual
   externalUrl?: string
+  externalNote?: string
   packaging?: Packaging
 }
 export const packagingFaces = ['front', 'back', 'top', 'bottom', 'left', 'right'] as const

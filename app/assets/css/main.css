@@ -586,6 +586,20 @@ p {
   gap: 48px;
   margin-block: 36px;
 }
+.project-external-link {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-size: 13px;
+}
+.project-external-link .text-link {
+  flex-shrink: 0;
+}
+.project-external-link p {
+  flex: 1 1 280px;
+  margin: 0;
+}
 .project-pending {
   border-top: var(--line);
   padding-block: 30px;

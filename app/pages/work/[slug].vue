@@ -36,9 +36,15 @@ useSeoMeta({ title: `${project.title.en} — WILLLIN`, description: `${project.t
         <span class="project-category">{{ [project.category, ...(project.additionalCategories ?? [])].join(' / ') }}</span>
       </div>
       <div v-if="project.description" class="project-description"><p>{{ project.description.en }}</p><p lang="zh-Hant">{{ project.description.zhTw }}</p></div>
+      <div v-if="project.note" class="project-description">
+        <p>{{ project.note.en }}<br v-if="project.note.url" /><a v-if="project.note.url" :href="project.note.url" class="text-link" target="_blank" rel="noopener noreferrer">View thesis ↗</a></p>
+        <p lang="zh-Hant">{{ project.note.zhTw }}<br v-if="project.note.url" /><a v-if="project.note.url" :href="project.note.url" class="text-link" target="_blank" rel="noopener noreferrer">閱讀論文 ↗</a></p>
+      </div>
       <dl v-if="project.date || project.role" class="project-description"><div v-if="project.date"><dt class="utility">Date</dt><dd>{{ project.date }}</dd></div><div v-if="project.role"><dt class="utility">Role</dt><dd>{{ project.role.en }}<span lang="zh-Hant">{{ project.role.zhTw }}</span></dd></div></dl>
-      <a v-if="project.externalUrl" :href="project.externalUrl" class="text-link" target="_blank" rel="noopener noreferrer">{{ project.externalUrl.startsWith('https://github.com/') ? 'View on GitHub ↗' : 'Visit website ↗' }}</a>
-      <div v-if="project.status === 'pending'" class="project-pending"><span>Content coming soon{{ project.gallery.length ? ' · Project story to follow' : '' }}</span><span lang="zh-Hant">{{ project.gallery.length ? '作品介紹待補，以下為實際作品影像。' : '作品內容待補。' }}</span></div>
+      <div v-if="project.externalUrl" class="project-external-link">
+        <a :href="project.externalUrl" class="text-link" target="_blank" rel="noopener noreferrer">{{ project.externalUrl.startsWith('https://github.com/') ? 'View on GitHub ↗' : 'Visit website ↗' }}</a>
+        <p v-if="project.externalNote" lang="zh-Hant">{{ project.externalNote }}</p>
+      </div>
     </header>
     <div v-if="galleryRows.length" class="project-gallery">
       <div v-for="row in galleryRows" :key="row.map(media => media.id).join('-')" class="project-gallery-row" :style="{ '--gallery-columns': project.galleryColumns ?? row.length }">
