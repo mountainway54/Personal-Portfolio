@@ -10,7 +10,7 @@ const year = new Date().getFullYear()
         <a class="text-link" :href="`mailto:${contact.email}`">{{ contact.email }}</a>
         <a class="text-link" :href="contact.phoneHref">{{ contact.phone }}</a>
       </div>
-      <small class="footer-copyright">© {{ year }} WILLLIN. All rights reserved.<br /><a href="https://icons8.com" class="icon-credit">Menu icon by Icons8</a></small>
+      <small class="footer-copyright">© {{ year }} WILLLIN. All rights reserved.</small>
     </div>
   </footer>
 </template>

@@ -287,10 +287,6 @@ p {
   height: 24px;
   filter: invert(1);
 }
-.icon-credit {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
 .mobile-menu {
   position: absolute;
   top: 100%;
