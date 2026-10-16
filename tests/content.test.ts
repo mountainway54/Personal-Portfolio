@@ -32,7 +32,7 @@ test('packaging rejects invalid dimensions, missing faces and missing files', ()
 test('source catalog is complete, bilingual and previewable', () => {
   assert.deepEqual(checkContent(projects, 'preview'), [])
   assert.equal(filterProjects('WEB').length, 2)
-  assert.equal(filterProjects('ALL').length, 15)
+  assert.equal(filterProjects('ALL').length, 17)
   assert.equal(projects[0]!.gallery.length, 11)
   assert.equal(projects[0]!.gallery[3]!.height, 2400)
 })

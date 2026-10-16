@@ -5,7 +5,7 @@ export function checkContent(projects: Project[], mode: 'preview' | 'release', c
   const errors: string[] = []
   const bilingual = (text: Bilingual | undefined) => Boolean(text?.en.trim() && text?.zhTw.trim())
   const slugs = new Set<string>()
-  if (projects.length !== 15) errors.push('catalog: expected 15 projects')
+  if (projects.length !== 17) errors.push('catalog: expected 17 projects')
   if (mode === 'release' && !/^[a-zA-Z0-9_-]+$/.test(cloudName)) errors.push('media: missing or invalid Cloudinary cloud name')
   for (const project of projects) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.slug) || slugs.has(project.slug)) errors.push(`${project.slug}: invalid or duplicate slug`)

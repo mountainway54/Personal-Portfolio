@@ -483,6 +483,38 @@ const associationMedia: Media[] = [
     zhTw: `協會品牌識別設計 ${number}`,
   },
 }));
+const additionalDayCareAssets: Record<string, [string, string, number, number][]> = {
+  "day-care-brand-identity-03": [
+    ["jiugu1", "1792161127", 1600, 1600],
+    ["jiugu2", "1792161127", 3840, 2160],
+    ["jiugu3", "1792161127", 3840, 2160],
+    ["jiugu5", "1792161127", 3840, 2160],
+    ["jiugu4", "1792161126", 3840, 2160],
+    ["jiugu7", "1792161608", 3840, 2160],
+    ["jiugu8", "1792161127", 3840, 2160],
+    ["jiugu6", "1792161127", 3840, 2160],
+  ],
+  "day-care-brand-identity-04": [
+    ["shui1_2x-20", "1792161403", 2000, 2000],
+    ["shui7_2x-20", "1792161407", 3840, 2160],
+    ["shui2_2x-20", "1792161402", 3840, 2160],
+    ["shui6_2x-20", "1792161406", 3840, 2160],
+    ["shui4_2x-20", "1792161403", 3840, 2160],
+    ["shui5_2x-20", "1792161404", 3840, 2160],
+    ["shui3_2x-20", "1792161404", 3840, 2160],
+  ],
+};
+const additionalDayCareMedia: Record<string, Media[]> = Object.fromEntries(
+  Object.entries(additionalDayCareAssets).map(([slug, assets]) => [
+    slug,
+    assets.map(([publicId, version, width, height], index) =>
+      socialMediaImage(publicId, version, width, height, {
+        en: `Day care centre brand identity — ${index === 0 ? "cover" : index}`,
+        zhTw: `日間照顧中心品牌識別 — ${index === 0 ? "縮圖" : index}`,
+      }),
+    ),
+  ]),
+);
 const entries: [string, Category, string, string][] = [
   [
     "day-care-brand-identity-01",
@@ -492,6 +524,18 @@ const entries: [string, Category, string, string][] = [
   ],
   [
     "day-care-brand-identity-02",
+    "VI",
+    "Day care centre brand identity",
+    "日間照顧中心品牌識別",
+  ],
+  [
+    "day-care-brand-identity-03",
+    "VI",
+    "Day care centre brand identity",
+    "日間照顧中心品牌識別",
+  ],
+  [
+    "day-care-brand-identity-04",
     "VI",
     "Day care centre brand identity",
     "日間照顧中心品牌識別",
@@ -641,6 +685,27 @@ export const projects: Project[] = entries.map(
             ["gangxin-2", "gangxin-3"],
             ["gangxin-print", "gangxin-hero-2"],
           ],
+        }
+      : {}),
+    ...(additionalDayCareMedia[slug]
+      ? {
+          cover: additionalDayCareMedia[slug][0],
+          gallery: additionalDayCareMedia[slug].slice(1),
+          galleryRows:
+            slug === "day-care-brand-identity-03"
+              ? [
+                  ["jiugu3"],
+                  ["jiugu5"],
+                  ["jiugu4", "jiugu7"],
+                  ["jiugu8"],
+                  ["jiugu6"],
+                ]
+              : [
+                  ["shui2_2x-20"],
+                  ["shui6_2x-20", "shui5_2x-20"],
+                  ["shui4_2x-20"],
+                  ["shui3_2x-20"],
+                ],
         }
       : {}),
     ...(slug === "association-brand-identity"
